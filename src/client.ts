@@ -11,7 +11,7 @@ import {
 import type { SocifyrConfig, HealthStatus } from './types'
 
 /**
- * Socifyr SDK client — publish to 10+ social platforms with one API call.
+ * Socifyr SDK client — publish to 18 social platforms with one API call.
  *
  * @example
  * ```ts

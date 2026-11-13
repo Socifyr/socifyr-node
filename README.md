@@ -1,6 +1,6 @@
 # @socifyr/sdk
 
-Official TypeScript SDK for the Socifyr API. Publish to 10+ social platforms with one API call.
+Official TypeScript SDK for the Socifyr API. Publish to 18 social platforms with one API call.
 
 **Supported platforms:** Instagram, Facebook, X (Twitter), LinkedIn, TikTok, YouTube, Threads, Pinterest, Reddit, Bluesky
 
