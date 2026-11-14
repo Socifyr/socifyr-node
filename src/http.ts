@@ -22,14 +22,12 @@ export function enc(segment: string): string {
 
 export class HttpClient {
   private readonly apiKey: string
-  private readonly workspaceId?: string
   private readonly apiUrl: string
   private readonly timeout: number
   private readonly maxRetries: number
 
   constructor(config: SocifyrConfig) {
     this.apiKey = config.apiKey
-    this.workspaceId = config.workspaceId
     this.apiUrl = (config.apiUrl ?? DEFAULT_API_URL).replace(/\/+$/, '')
     this.timeout = config.timeout ?? DEFAULT_TIMEOUT
     this.maxRetries = config.maxRetries ?? DEFAULT_MAX_RETRIES
@@ -103,7 +101,6 @@ export class HttpClient {
 
     const headers = new Headers(init.headers)
     headers.set('Authorization', `Bearer ${this.apiKey}`)
-    if (this.workspaceId) headers.set('X-Workspace-Id', this.workspaceId)
     headers.set('Accept', 'application/json')
 
     try {

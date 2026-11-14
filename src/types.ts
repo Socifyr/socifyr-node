@@ -3,12 +3,6 @@
 export interface SocifyrConfig {
   /** API key (prefixed with `sk_`) */
   apiKey: string
-  /**
-   * @deprecated Not needed — an API key belongs to exactly one workspace, and
-   * the API always uses that workspace. Accepted (and ignored by the server
-   * for `sk_` keys) for backward compatibility.
-   */
-  workspaceId?: string
   /** Base URL of the Socifyr API (default: https://api.socifyr.com/api) */
   apiUrl?: string
   /** Request timeout in milliseconds (default: 30000) */

@@ -1,6 +1,6 @@
 {
   "name": "@socifyr/sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Official TypeScript SDK for Socifyr, the social publishing API for teams and AI agents. Publish to 18 platforms with one call",
   "license": "AGPL-3.0-or-later",
   "main": "./dist/index.js",

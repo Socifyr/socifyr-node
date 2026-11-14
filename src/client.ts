@@ -18,7 +18,7 @@ import type { SocifyrConfig, HealthStatus } from './types'
  * import { Socifyr } from '@socifyr/sdk'
  *
  * const socifyr = new Socifyr({
- *   apiKey: 'sk_...', // the key belongs to one workspace; no workspace id needed
+ *   apiKey: 'sk_...',
  * })
  *
  * // Publish a video to Instagram Reels + TikTok

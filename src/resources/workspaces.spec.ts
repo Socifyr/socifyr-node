@@ -83,84 +83,79 @@ describe('WorkspacesResource', () => {
       })
     })
 
-    it('treats an unset legacy id as the current workspace', async () => {
-      mockHttp.get = jest.fn().mockResolvedValue([])
-      await resource.listConnections(undefined as unknown as string)
-      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/current/connections')
-    })
   })
 
   describe('connections', () => {
-    it('listConnections gets /workspaces/:id/connections', async () => {
+    it('listConnections gets /workspaces/current/connections', async () => {
       mockHttp.get = jest.fn().mockResolvedValue([])
-      await resource.listConnections('ws_1')
-      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/ws_1/connections')
+      await resource.listConnections()
+      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/current/connections')
     })
 
-    it('disconnectPlatform deletes /workspaces/:id/platforms/:platform', async () => {
+    it('disconnectPlatform deletes /workspaces/current/platforms/:platform', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.disconnectPlatform('ws_1', 'facebook')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/platforms/facebook')
+      await resource.disconnectPlatform('facebook')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/platforms/facebook')
     })
 
     it('revokePlatform deletes the revoke sub-route', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.revokePlatform('ws_1', 'instagram')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/platforms/instagram/revoke')
+      await resource.revokePlatform('instagram')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/platforms/instagram/revoke')
     })
 
     it('updatePlatformTarget patches the platform target route', async () => {
       mockHttp.patch = jest.fn().mockResolvedValue(undefined)
-      await resource.updatePlatformTarget('ws_1', 'facebook', {
+      await resource.updatePlatformTarget('facebook', {
         targetId: '17841400012345678',
         targetName: 'My Brand Page',
       })
       expect(mockHttp.patch).toHaveBeenCalledWith(
-        '/workspaces/ws_1/platforms/facebook/target',
+        '/workspaces/current/platforms/facebook/target',
         { targetId: '17841400012345678', targetName: 'My Brand Page' },
       )
     })
 
-    it('deleteConnection deletes /workspaces/:id/connections/:connectionId', async () => {
+    it('deleteConnection deletes /workspaces/current/connections/:connectionId', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.deleteConnection('ws_1', 'conn_1')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/connections/conn_1')
+      await resource.deleteConnection('conn_1')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/connections/conn_1')
     })
 
     it('revokeConnection deletes the connection revoke sub-route', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.revokeConnection('ws_1', 'conn_1')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/connections/conn_1/revoke')
+      await resource.revokeConnection('conn_1')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/connections/conn_1/revoke')
     })
 
     it('forkConnection posts to the fork sub-route with target params', async () => {
       mockHttp.post = jest.fn().mockResolvedValue({ _id: 'conn_2' })
-      await resource.forkConnection('ws_1', 'conn_1', {
+      await resource.forkConnection('conn_1', {
         targetId: 'page_2',
         targetName: 'Second Page',
       })
       expect(mockHttp.post).toHaveBeenCalledWith(
-        '/workspaces/ws_1/connections/conn_1/fork',
+        '/workspaces/current/connections/conn_1/fork',
         { targetId: 'page_2', targetName: 'Second Page' },
       )
     })
 
     it('updateConnectionTarget patches the connection target route', async () => {
       mockHttp.patch = jest.fn().mockResolvedValue(undefined)
-      await resource.updateConnectionTarget('ws_1', 'conn_1', {
+      await resource.updateConnectionTarget('conn_1', {
         targetId: 'page_2',
         targetName: 'Second Page',
       })
       expect(mockHttp.patch).toHaveBeenCalledWith(
-        '/workspaces/ws_1/connections/conn_1/target',
+        '/workspaces/current/connections/conn_1/target',
         { targetId: 'page_2', targetName: 'Second Page' },
       )
     })
 
     it('refreshConnection posts to the refresh sub-route', async () => {
       mockHttp.post = jest.fn().mockResolvedValue({ slug: 'x-me', status: 'active', canRefresh: true })
-      const out = await resource.refreshConnection('ws_1', 'x-me')
-      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/ws_1/connections/x-me/refresh')
+      const out = await resource.refreshConnection('x-me')
+      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/current/connections/x-me/refresh')
       expect(out.status).toBe('active')
     })
 
@@ -173,67 +168,67 @@ describe('WorkspacesResource', () => {
   })
 
   describe('members', () => {
-    it('listMembers gets /workspaces/:id/members', async () => {
+    it('listMembers gets /workspaces/current/members', async () => {
       mockHttp.get = jest.fn().mockResolvedValue([])
-      await resource.listMembers('ws_1')
-      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/ws_1/members')
+      await resource.listMembers()
+      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/current/members')
     })
 
     it('updateMemberRole patches the role route with roleKey body', async () => {
       mockHttp.patch = jest.fn().mockResolvedValue(undefined)
-      await resource.updateMemberRole('ws_1', 'user_1', 'EDITOR')
-      expect(mockHttp.patch).toHaveBeenCalledWith('/workspaces/ws_1/members/user_1/role', {
+      await resource.updateMemberRole('user_1', 'EDITOR')
+      expect(mockHttp.patch).toHaveBeenCalledWith('/workspaces/current/members/user_1/role', {
         roleKey: 'EDITOR',
       })
     })
 
-    it('removeMember deletes /workspaces/:id/members/:userId', async () => {
+    it('removeMember deletes /workspaces/current/members/:userId', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.removeMember('ws_1', 'user_1')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/members/user_1')
+      await resource.removeMember('user_1')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/members/user_1')
     })
   })
 
   describe('invitations', () => {
-    it('invite posts to /workspaces/:id/invitations', async () => {
+    it('invite posts to /workspaces/current/invitations', async () => {
       mockHttp.post = jest.fn().mockResolvedValue({ id: 'inv_1' })
-      await resource.invite('ws_1', { email: 'alice@example.com', roleKey: 'EDITOR' })
-      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/ws_1/invitations', {
+      await resource.invite({ email: 'alice@example.com', roleKey: 'EDITOR' })
+      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/current/invitations', {
         email: 'alice@example.com',
         roleKey: 'EDITOR',
       })
     })
 
-    it('listInvitations gets /workspaces/:id/invitations', async () => {
+    it('listInvitations gets /workspaces/current/invitations', async () => {
       mockHttp.get = jest.fn().mockResolvedValue([])
-      await resource.listInvitations('ws_1')
-      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/ws_1/invitations')
+      await resource.listInvitations()
+      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/current/invitations')
     })
 
     it('cancelInvitation deletes the invitation route', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.cancelInvitation('ws_1', 'inv_1')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/invitations/inv_1')
+      await resource.cancelInvitation('inv_1')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/invitations/inv_1')
     })
   })
 
   describe('API keys', () => {
-    it('listApiKeys gets /workspaces/:id/api-keys', async () => {
+    it('listApiKeys gets /workspaces/current/api-keys', async () => {
       mockHttp.get = jest.fn().mockResolvedValue([])
-      await resource.listApiKeys('ws_1')
-      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/ws_1/api-keys')
+      await resource.listApiKeys()
+      expect(mockHttp.get).toHaveBeenCalledWith('/workspaces/current/api-keys')
     })
 
-    it('createApiKey posts to /workspaces/:id/api-keys', async () => {
+    it('createApiKey posts to /workspaces/current/api-keys', async () => {
       mockHttp.post = jest.fn().mockResolvedValue({ id: 'key_1', key: 'sk_test' })
-      await resource.createApiKey('ws_1', { label: 'CI/CD' })
-      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/ws_1/api-keys', { label: 'CI/CD' })
+      await resource.createApiKey({ label: 'CI/CD' })
+      expect(mockHttp.post).toHaveBeenCalledWith('/workspaces/current/api-keys', { label: 'CI/CD' })
     })
 
     it('deleteApiKey deletes the key route', async () => {
       mockHttp.delete = jest.fn().mockResolvedValue(undefined)
-      await resource.deleteApiKey('ws_1', 'key_1')
-      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/ws_1/api-keys/key_1')
+      await resource.deleteApiKey('key_1')
+      expect(mockHttp.delete).toHaveBeenCalledWith('/workspaces/current/api-keys/key_1')
     })
   })
 })

@@ -23,7 +23,7 @@ describe('Socifyr', () => {
   })
 
   it('creates all resources', () => {
-    const client = new Socifyr({ apiKey: 'sk_test', workspaceId: 'ws_123' })
+    const client = new Socifyr({ apiKey: 'sk_test' })
     expect(client.uploads).toBeDefined()
     expect(client.media).toBeDefined()
     expect(client.ai).toBeDefined()
@@ -36,7 +36,6 @@ describe('Socifyr', () => {
   it('accepts optional apiUrl override', () => {
     const client = new Socifyr({
       apiKey: 'sk_test',
-      workspaceId: 'ws_123',
       apiUrl: 'https://custom.api.com/api',
     })
     expect(client.uploads).toBeDefined()
@@ -45,7 +44,6 @@ describe('Socifyr', () => {
   it('accepts optional timeout and maxRetries', () => {
     const client = new Socifyr({
       apiKey: 'sk_test',
-      workspaceId: 'ws_123',
       timeout: 10_000,
       maxRetries: 5,
     })

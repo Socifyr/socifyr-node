@@ -39,7 +39,7 @@ console.log(upload.requestId) // '9f2c7a1e-...' (for status polling)
 
 ## Authentication
 
-Create an API key at **Settings > API Keys** in your Socifyr dashboard, or programmatically. Each key belongs to exactly one workspace, and the SDK always works in that workspace, so there is no workspace ID to configure. To work with several workspaces (for example one per client), use one key per workspace.
+Create an API key at **API & Integrations** in your Socifyr dashboard, or programmatically. Each key belongs to exactly one workspace, and the SDK always works in that workspace. To work with several workspaces (for example one per client), use one key per workspace.
 
 ```typescript
 const key = await socifyr.workspaces.createApiKey({
@@ -695,7 +695,7 @@ The payload carries `timestamp` and a unique `deliveryId` — use them for repla
 
 ## Workspaces
 
-Connection, member, invitation and API key methods act on the workspace the API key belongs to, so they take no workspace ID.
+Connection, member, invitation and API key methods act on the workspace the API key belongs to.
 
 ### Workspace CRUD
 
